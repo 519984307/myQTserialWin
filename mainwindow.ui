@@ -52,17 +52,10 @@
     <property name="title">
      <string>数据发送</string>
     </property>
-    <widget class="QTextBrowser" name="messageSend">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>691</width>
-       <height>71</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QPushButton" name="send">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>710</x>
@@ -73,6 +66,16 @@
      </property>
      <property name="text">
       <string>发送</string>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="message">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>20</y>
+       <width>691</width>
+       <height>71</height>
+      </rect>
      </property>
     </widget>
    </widget>
@@ -273,6 +276,9 @@
     </widget>
    </widget>
    <widget class="QCheckBox" name="openCom">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>40</x>

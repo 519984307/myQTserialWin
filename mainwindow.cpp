@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     /* the check is TRUE */
     if (checked) {
       initSerialPort();
-      ui->send->setEnabled(false);
+      ui->send->setEnabled(true);
     } else {
       /* the check is FALSE */
       this->serialPort->close();
@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(this->serialPort, SIGNAL(readyRead()), this, SLOT(recvMsg()));
   /* 发送数据连接 */
   connect(ui->send, &QPushButton::clicked,
-          [=]() { sendMsg(ui->messageSend->toPlainText()); });
+          [=]() { sendMsg(ui->message->toPlainText()); });
 }
 
 /* 主窗口的析构函数 */
