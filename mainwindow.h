@@ -32,6 +32,8 @@ protected:
 
 public slots:
   void recvMsg();
+  void on_clearRxLog_clicked();
+  void on_clearTxLog_clicked();
 
 private:
   Ui::MainWindow *ui;

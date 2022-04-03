@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
       ui->openCom->setChecked(false);
     }
   });
-  /* 接收数据连接 */
+  /* 接收数据连接(手动连接) */
   connect(this->serialPort, SIGNAL(readyRead()), this, SLOT(recvMsg()));
   /* 发送数据连接 */
   connect(ui->send, &QPushButton::clicked,
@@ -107,3 +107,9 @@ void MainWindow::recvMsg() {
   /* 自动滚动进度条 */
   ui->logBrowser->moveCursor(QTextCursor::End);
 }
+
+/* button clear RX log */
+void MainWindow::on_clearRxLog_clicked() { ui->logBrowser->clear(); }
+
+/* button clear TX log */
+void MainWindow::on_clearTxLog_clicked() { ui->message->clear(); }

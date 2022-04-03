@@ -18,13 +18,13 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>30</y>
+      <y>10</y>
       <width>641</width>
       <height>451</height>
      </rect>
     </property>
     <property name="title">
-     <string>数据日志</string>
+     <string>接收日志</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -45,7 +45,7 @@
      <rect>
       <x>10</x>
       <y>480</y>
-      <width>801</width>
+      <width>791</width>
       <height>101</height>
      </rect>
     </property>
@@ -83,7 +83,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>10</y>
       <width>131</width>
       <height>171</height>
      </rect>
@@ -282,13 +282,39 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>210</y>
+      <y>180</y>
       <width>71</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>打开串口</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clearRxLog">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>460</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>清除接收</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clearTxLog">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>460</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>清除发送</string>
     </property>
    </widget>
   </widget>
