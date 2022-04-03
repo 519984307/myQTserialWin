@@ -104,4 +104,6 @@ void MainWindow::recvMsg() {
   ui->logBrowser->insertPlainText(
       QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") +
       " [receive] " + "\r\n" + msg.toHex().data() + "\r\n");
+  /* 自动滚动进度条 */
+  ui->logBrowser->moveCursor(QTextCursor::End);
 }
