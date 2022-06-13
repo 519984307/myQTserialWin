@@ -23,7 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
     }
   });
   /* 接收数据连接(手动连接) */
-  connect(this->serialPort, SIGNAL(readyRead()), this, SLOT(recvMsg()));
+  // connect(this->serialPort, SIGNAL(readyRead()), this, SLOT(recvMsg()));
+  connect(this->serialPort, &QSerialPort::readyRead, this,
+          &MainWindow::recvMsg);
   /* 发送数据连接 */
   connect(ui->send, &QPushButton::clicked,
           [=]() { sendMsg(ui->message->toPlainText()); });
@@ -42,6 +44,9 @@ void MainWindow::findFreeports() {
       continue;
     }
     ui->portName->addItem(ports.at(i).portName());
+    /* 显示具体的串口信息 */
+    qDebug() << "PortName:" << ports.at(i).portName();
+    qDebug() << "Description:" << ports.at(i).description();
   }
   /* 如果没有可用的串口 */
   if (!ports.size()) {
@@ -70,6 +75,10 @@ bool MainWindow::initSerialPort() {
     this->serialPort->setParity(QSerialPort::EvenParity);
   }
 
+  /* set lora serial M0、M1 pin LOW */
+  this->serialPort->setRequestToSend(TRUE);
+  this->serialPort->setDataTerminalReady(TRUE);
+
   /* set data size */
   if (ui->dataBits->currentText().toInt() == DATA_BITS_8) {
     this->serialPort->setDataBits(QSerialPort::Data8);
@@ -84,9 +93,10 @@ bool MainWindow::initSerialPort() {
   /* set stop bits */
   if (ui->stopBits->currentText().toInt() == STOP_BITS_1) {
     this->serialPort->setStopBits(QSerialPort::OneStop);
-  } else if (ui->stopBits->currentText().toInt() == STOP_BITS_1) {
+  } else if (ui->stopBits->currentText().toInt() == STOP_BITS_2) {
     this->serialPort->setStopBits(QSerialPort::TwoStop);
   }
+  return true;
 }
 
 /* send message to serial port */
@@ -100,12 +110,31 @@ void MainWindow::sendMsg(const QString &msg) {
 /* receive message from serial port */
 void MainWindow::recvMsg() {
   QByteArray msg = this->serialPort->readAll();
+
   /* 将接收到的数据通过串口显示到log区域 */
-  ui->logBrowser->insertPlainText(
-      QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") +
-      " [receive] " + "\r\n" + msg.toHex().data() + "\r\n");
-  /* 自动滚动进度条 */
-  ui->logBrowser->moveCursor(QTextCursor::End);
+  if (!msg.isEmpty()) {
+    /* 使用ascii码格式接收 */
+    if (ui->rx_ascii->isChecked()) {
+      ui->logBrowser->insertPlainText(
+          QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") +
+          " [receive] " + "\r\n" + msg + "\r\n");
+    }
+    /* 使用16进制格式进行输出 */
+    else if (ui->rx_hex->isChecked()) {
+      QString rec_buf;
+      for (int i = 0; i < msg.count(); i++) {
+        QString str;
+        /* 以16进制输出，但还是使用拼接成字符串的方式 */
+        str.sprintf("%02X ", (unsigned char)msg.at(i));
+        rec_buf += str;
+      }
+      ui->logBrowser->insertPlainText(
+          QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") +
+          " [receive] " + "\r\n" + rec_buf + "\r\n");
+    }
+    /* 自动滚动进度条 */
+    ui->logBrowser->moveCursor(QTextCursor::End);
+  }
 }
 
 /* button clear RX log */

@@ -6,6 +6,7 @@
 #include <QtSerialPort/QSerialPortInfo>
 
 #include <QDateTime>
+#include <QDebug>
 #include <QList>
 #include <QMessageBox>
 

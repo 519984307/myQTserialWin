@@ -114,7 +114,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="portName"/>
+         <widget class="QComboBox" name="portName">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>20</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -137,6 +144,7 @@
          <widget class="QComboBox" name="baudRate">
           <property name="font">
            <font>
+            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -283,8 +291,8 @@
      <rect>
       <x>40</x>
       <y>180</y>
-      <width>71</width>
-      <height>20</height>
+      <width>81</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -316,6 +324,61 @@
     <property name="text">
      <string>清除发送</string>
     </property>
+   </widget>
+   <widget class="QCheckBox" name="openCom_2">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>460</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>乘梯模式</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>53</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>接收设置</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>240</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <widget class="QRadioButton" name="rx_ascii">
+       <property name="text">
+        <string>ASCII</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="rx_hex">
+       <property name="text">
+        <string>HEX</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>
