@@ -1,5 +1,7 @@
 #include "mainwindow.h"
+#include "lora.h"
 #include "sys.h"
+#include "transport_crc.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -14,6 +16,12 @@ MainWindow::MainWindow(QWidget *parent)
     if (checked) {
       initSerialPort();
       ui->send->setEnabled(true);
+      /* 关闭串口配置 */
+      ui->portName->setDisabled(true);
+      ui->baudRate->setDisabled(true);
+      ui->parity->setDisabled(true);
+      ui->dataBits->setDisabled(true);
+      ui->stopBits->setDisabled(true);
     } else {
       /* the check is FALSE */
       this->serialPort->close();
@@ -107,30 +115,49 @@ void MainWindow::sendMsg(const QString &msg) {
       " [send] " + "\r\n" + msg + "\r\n");
 }
 
+extern transport_t lora_transport;
+
 /* receive message from serial port */
 void MainWindow::recvMsg() {
   QByteArray msg = this->serialPort->readAll();
-
   /* 将接收到的数据通过串口显示到log区域 */
   if (!msg.isEmpty()) {
     /* 使用ascii码格式接收 */
     if (ui->rx_ascii->isChecked()) {
       ui->logBrowser->insertPlainText(
-          QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") +
+          QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz") +
           " [receive] " + "\r\n" + msg + "\r\n");
     }
-    /* 使用16进制格式进行输出 */
+    /* 使用16进制格式进行解析 */
     else if (ui->rx_hex->isChecked()) {
       QString rec_buf;
       for (int i = 0; i < msg.count(); i++) {
         QString str;
         /* 以16进制输出，但还是使用拼接成字符串的方式 */
-        str.sprintf("%02X ", (unsigned char)msg.at(i));
+        if (i == msg.count() - 1) {
+          /* 最后一个字符串不输出空格 */
+          str = QString::asprintf("%02X", (unsigned char)msg.at(i));
+        } else {
+          str = QString::asprintf("%02X ", (unsigned char)msg.at(i));
+        }
         rec_buf += str;
       }
-      ui->logBrowser->insertPlainText(
-          QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") +
-          " [receive] " + "\r\n" + rec_buf + "\r\n");
+
+      /* lora信号质量检测 */
+      if (ui->signal_quality->isChecked()) {
+        rec_buf = lora_signal(rec_buf);
+      }
+      /* 打开乘梯模式 */
+      else if (ui->elevator_mode->isChecked()) {
+        for (int i = 0; i < msg.count(); i++) {
+          lora_transport.receiveByte(&lora_transport, (uint8_t)msg.at(i));
+        }
+      }
+      if (!rec_buf.isEmpty()) {
+        ui->logBrowser->insertPlainText(
+            QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz") +
+            " [receive] " + "\r\n" + rec_buf + "\r\n");
+      }
     }
     /* 自动滚动进度条 */
     ui->logBrowser->moveCursor(QTextCursor::End);
@@ -142,3 +169,34 @@ void MainWindow::on_clearRxLog_clicked() { ui->logBrowser->clear(); }
 
 /* button clear TX log */
 void MainWindow::on_clearTxLog_clicked() { ui->message->clear(); }
+
+/* save data to file(not continuous) */
+void MainWindow::on_saveFile_clicked(bool checked) {
+  if (checked) {
+    if (ui->logBrowser->toPlainText().isEmpty()) {
+      QMessageBox::information(this, "提示消息", tr("没有数据需要保存！"),
+                               QMessageBox::Ok);
+      return;
+    }
+    QString fileName =
+        QFileDialog::getSaveFileName(this, tr("保存为"), tr("未命名.txt"));
+    QFile file(fileName);
+    /* 如果用户取消了保存则直接退出函数 */
+    if (file.fileName().isEmpty()) {
+      return;
+    }
+    /* 如果打开失败则给出提示并退出函数 */
+    if (!file.open(QFile::WriteOnly | QIODevice::Text)) {
+      QMessageBox::warning(this, tr("保存文件"),
+                           tr("打开文件 %1 失败, 无法保存\n%2")
+                               .arg(fileName)
+                               .arg(file.errorString()),
+                           QMessageBox::Ok);
+      return;
+    }
+    /* 写数据到文件 */
+    QTextStream out(&file);
+    out << ui->logBrowser->toPlainText();
+    file.close();
+  }
+}

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>接收日志</string>
+     <string>数据日志</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -84,7 +84,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>131</width>
+      <width>151</width>
       <height>171</height>
      </rect>
     </property>
@@ -96,7 +96,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>116</width>
+       <width>139</width>
        <height>148</height>
       </rect>
      </property>
@@ -115,6 +115,9 @@
         </item>
         <item>
          <widget class="QComboBox" name="portName">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>20</horstretch>
@@ -261,6 +264,9 @@
         </item>
         <item>
          <widget class="QComboBox" name="stopBits">
+          <property name="editable">
+           <bool>false</bool>
+          </property>
           <item>
            <property name="text">
             <string>1</string>
@@ -282,22 +288,6 @@
       </item>
      </layout>
     </widget>
-   </widget>
-   <widget class="QCheckBox" name="openCom">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>180</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>打开串口</string>
-    </property>
    </widget>
    <widget class="QPushButton" name="clearRxLog">
     <property name="geometry">
@@ -325,60 +315,106 @@
      <string>清除发送</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="openCom_2">
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>460</y>
+      <width>211</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QCheckBox" name="elevator_mode">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string>乘梯模式</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="signal_quality">
+       <property name="text">
+        <string>信号质量检测</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QCheckBox" name="openCom">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>460</y>
-      <width>81</width>
-      <height>31</height>
+      <x>50</x>
+      <y>180</y>
+      <width>87</width>
+      <height>19</height>
      </rect>
     </property>
     <property name="text">
-     <string>乘梯模式</string>
+     <string>打开串口</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_6">
+   <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>220</y>
-      <width>53</width>
-      <height>16</height>
+      <y>210</y>
+      <width>151</width>
+      <height>71</height>
      </rect>
     </property>
-    <property name="text">
+    <property name="title">
      <string>接收设置</string>
     </property>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>240</y>
-      <width>141</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
-     <item>
-      <widget class="QRadioButton" name="rx_ascii">
-       <property name="text">
-        <string>ASCII</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="rx_hex">
-       <property name="text">
-        <string>HEX</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QWidget" name="verticalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QRadioButton" name="rx_ascii">
+          <property name="text">
+           <string>ASCII</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="rx_hex">
+          <property name="text">
+           <string>HEX</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="saveFile">
+        <property name="text">
+         <string>接收保存到文件</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
   </widget>
  </widget>

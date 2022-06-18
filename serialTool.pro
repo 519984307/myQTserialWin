@@ -9,12 +9,19 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    elevator_protocol_parse.cpp \
+    lora.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    transport_crc.cpp
 
 HEADERS += \
+    elevator_protocol_parse.h \
+    lora.h \
     mainwindow.h \
-    sys.h
+    sys.h \
+    transport.h \
+    transport_crc.h
 
 FORMS += \
     mainwindow.ui
