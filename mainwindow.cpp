@@ -7,8 +7,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
-
   this->serialPort = new QSerialPort;
+  this->LoraSignalQualitySeries = new QtCharts::QLineSeries();
+  this->floorChangedSeries = new QtCharts::QLineSeries();
   findFreeports();
   /* detect the toggled signal(这是一种自检测，不连接其他槽) */
   connect(ui->openCom, &QCheckBox::toggled, [=](bool checked) {
@@ -17,21 +18,21 @@ MainWindow::MainWindow(QWidget *parent)
       initSerialPort();
       ui->send->setEnabled(true);
       /* 关闭串口配置 */
-      ui->portName->setDisabled(true);
-      ui->baudRate->setDisabled(true);
-      ui->parity->setDisabled(true);
-      ui->dataBits->setDisabled(true);
-      ui->stopBits->setDisabled(true);
+      serial_config_enable(true);
+      /* clear data */
+      LoraSignalQualitySeries->clear();
+      floorChangedSeries->clear();
     } else {
       /* the check is FALSE */
       this->serialPort->close();
       ui->send->setEnabled(false);
       /* check false status */
       ui->openCom->setChecked(false);
+      /* 打开串口配置 */
+      serial_config_enable(false);
     }
   });
   /* 接收数据连接(手动连接) */
-  // connect(this->serialPort, SIGNAL(readyRead()), this, SLOT(recvMsg()));
   connect(this->serialPort, &QSerialPort::readyRead, this,
           &MainWindow::recvMsg);
   /* 发送数据连接 */
@@ -115,6 +116,15 @@ void MainWindow::sendMsg(const QString &msg) {
       " [send] " + "\r\n" + msg + "\r\n");
 }
 
+void MainWindow::serial_config_enable(bool value) {
+  /* 串口配置使能，失能 */
+  ui->portName->setDisabled(value);
+  ui->baudRate->setDisabled(value);
+  ui->parity->setDisabled(value);
+  ui->dataBits->setDisabled(value);
+  ui->stopBits->setDisabled(value);
+}
+
 extern transport_t lora_transport;
 
 /* receive message from serial port */
@@ -145,7 +155,7 @@ void MainWindow::recvMsg() {
 
       /* lora信号质量检测 */
       if (ui->signal_quality->isChecked()) {
-        rec_buf = lora_signal(rec_buf);
+        rec_buf = this->lora_signal(rec_buf);
       }
       /* 打开乘梯模式 */
       else if (ui->elevator_mode->isChecked()) {
@@ -199,4 +209,73 @@ void MainWindow::on_saveFile_clicked(bool checked) {
     out << ui->logBrowser->toPlainText();
     file.close();
   }
+}
+
+/* draw line */
+
+/* lora receive signal quality chart */
+void MainWindow::draw_signal_quality_line() {
+  QtCharts::QChart *chart = new QtCharts::QChart();
+  /* set legend */
+  chart->legend()->setAlignment(Qt::AlignBottom);
+  chart->legend()->hide();
+  chart->addSeries(LoraSignalQualitySeries);
+  // chart->createDefaultAxes();/* set Axis */
+  auto axisX = new QtCharts::QValueAxis();
+  auto axisY = new QtCharts::QValueAxis();
+  // axisX->setRange(1, 100);            /* set axisX range */
+  /* set AxisX */
+  axisX->setTitleText("time(s)"); /* set axisX title */
+  /* set AxisY */
+  axisY->setTitleText("quality(dBm)"); /* set axisX title */
+  axisY->setRange(-130, -50);          /* set recv signal range*/
+  /* add axis to chart */
+  chart->addAxis(axisX, Qt::AlignBottom);
+  chart->addAxis(axisY, Qt::AlignLeft);
+  LoraSignalQualitySeries->attachAxis(axisX);
+  LoraSignalQualitySeries->attachAxis(axisY);
+  /* set chart title */
+  chart->setTitle("lora rec signal quality");
+  /* show chart */
+  QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
+  chartView->resize(800, 600);
+  chartView->show();
+}
+
+/* click button to show signal quality line chart */
+void MainWindow::on_signal_quality_button_clicked(bool checked) {
+  if (checked) {
+    draw_signal_quality_line();
+    draw_floor_changed_line();
+  }
+}
+
+/* floor changed chart */
+void MainWindow::draw_floor_changed_line() {
+  QtCharts::QChart *chart = new QtCharts::QChart();
+  /* set legend */
+  chart->legend()->setAlignment(Qt::AlignBottom);
+  chart->legend()->hide();
+  chart->addSeries(floorChangedSeries);
+  // chart->createDefaultAxes();/* set Axis */
+  auto axisX = new QtCharts::QValueAxis();
+  auto axisY = new QtCharts::QValueAxis();
+  // axisX->setRange(1, 100);            /* set axi sX range */
+  /* set AxisX */
+  axisX->setTitleText("time(s)"); /* set axisX title */
+  /* set AxisY */
+  axisY->setTitleText("floor"); /* set axisX title */
+  /* add axis to chart */
+  chart->addAxis(axisX, Qt::AlignBottom);
+  chart->addAxis(axisY, Qt::AlignLeft);
+  floorChangedSeries->attachAxis(axisX);
+  floorChangedSeries->attachAxis(axisY);
+  /* set chart title */
+  chart->setTitle("floor changed line");
+  /* show chart */
+  QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
+  chartView->resize(800, 600);
+  chartView->show();
 }

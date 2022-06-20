@@ -32,15 +32,17 @@ void lora_send(uint8_t *data, uint16_t len) {
   lora_transport.sendFrame(&lora_transport, data, len);
 }
 
-QString lora_signal(QString str) {
+QString MainWindow::lora_signal(QString str) {
   QString floor, run_status, arrived, signal, ret;
-  int signal_val;
+  int signal_val, floor_val;
+  static int i = 0;
   /* use regular expression to match the signal check */
-  QRegularExpression re("1[0-9] 7C 20");
-  int res = str.indexOf(re);
-  if (res != -1) {
+  QRegularExpression re("1[0-9] 7C 20 00 03");
+  /* match the slave reply */
+  if (re.match(str).hasMatch()) {
     floor = "楼层:";
     floor += str.mid(ELEVATOR_FLOOR_POS, 2) + " ";
+    floor_val = str.mid(ELEVATOR_FLOOR_POS, 2).toInt();
     run_status = "运动状态:";
     run_status += str.mid(ELEVATOR_RUN_STATUS_POS, 1) + " ";
     arrived = "到达状态:";
@@ -48,11 +50,13 @@ QString lora_signal(QString str) {
     signal = str.mid(ELEVATOR_SIGNAL_CHECK_POS, 2);
     /* 16进制字符串转10进制 */
     signal_val = signal.toInt(NULL, 16) / 2;
+    this->LoraSignalQualitySeries->append(i, -signal_val);
+    this->floorChangedSeries->append(i++, floor_val);
     signal = "信号强度:-";
     signal += QString::number(signal_val) + "dBm";
     ret = floor + run_status + arrived + signal;
-    qDebug() << "found heart packet";
-    qDebug() << ret;
+    //    qDebug() << "found heart packet";
+    //    qDebug() << ret;
   }
   return ret;
 }

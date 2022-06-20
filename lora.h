@@ -43,6 +43,6 @@ void lora_rx_frame_parse(transport_t *transport, uint8_t *frame,
                          int32_t length);
 int32_t lora_tx_frame(intptr_t handle, uint8_t *data, int32_t length);
 
-QString lora_signal(QString str);
+// QString lora_signal(QString str);
 
 #endif // LORA_H

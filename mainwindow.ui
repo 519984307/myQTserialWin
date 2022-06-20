@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>823</width>
-    <height>587</height>
+    <width>809</width>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,7 +96,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>139</width>
+       <width>141</width>
        <height>148</height>
       </rect>
      </property>
@@ -318,9 +318,9 @@
    <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>170</x>
       <y>460</y>
-      <width>211</width>
+      <width>171</width>
       <height>21</height>
      </rect>
     </property>
@@ -367,6 +367,9 @@
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -384,12 +387,15 @@
        <x>10</x>
        <y>20</y>
        <width>141</width>
-       <height>41</height>
+       <height>42</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <property name="spacing">
+         <number>4</number>
+        </property>
         <item>
          <widget class="QRadioButton" name="rx_ascii">
           <property name="text">
@@ -410,6 +416,95 @@
        <widget class="QCheckBox" name="saveFile">
         <property name="text">
          <string>接收保存到文件</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>400</y>
+      <width>151</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>发送设置</string>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>141</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <item>
+         <widget class="QRadioButton" name="send_ascii">
+          <property name="text">
+           <string>ASCII</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="send_hex">
+          <property name="text">
+           <string>HEX</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="send_circle">
+        <property name="text">
+         <string>循环发送</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>151</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>数据可视化</string>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>141</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QCheckBox" name="signal_quality_button">
+        <property name="text">
+         <string>接收信号强度</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="send_circle_2">
+        <property name="text">
+         <string>待定</string>
         </property>
        </widget>
       </item>

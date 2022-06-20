@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QValueAxis>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 
@@ -27,6 +30,10 @@ class MainWindow : public QMainWindow {
 public:
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
+  QString lora_signal(QString str);
+  void draw_signal_quality_line();
+  void draw_floor_changed_line();
+  void serial_config_enable(bool value);
 
 protected:
   /* find free serial */
@@ -41,9 +48,14 @@ public slots:
   void on_clearRxLog_clicked();
   void on_clearTxLog_clicked();
   void on_saveFile_clicked(bool checked);
+  void on_signal_quality_button_clicked(bool checked);
 
 private:
   Ui::MainWindow *ui;
+  QtCharts::QLineSeries
+      *LoraSignalQualitySeries; /* lora signal quality series */
+  QtCharts::QLineSeries
+      *floorChangedSeries; /* floor changed chart for signal quality */
   QSerialPort *serialPort;
   QString write2fileName;
 };
