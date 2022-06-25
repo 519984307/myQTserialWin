@@ -31,18 +31,21 @@
 #define ELEVATOR_DIRECTION (13)
 #define ELEVATOR_COMMAND (14)
 #define ELEVATOR_TODO (15)
-#define ELEVATOR_FLOOR_POS (57)
-#define ELEVATOR_RUN_STATUS_POS (61)
-#define ELEVATOR_ARRIVED_STATUS (64)
-#define ELEVATOR_SIGNAL_CHECK_POS (78)
+#define ELEVATOR_FLOOR_POS (51)
+#define ELEVATOR_RUN_STATUS_POS (55)
+#define ELEVATOR_ARRIVED_STATUS (58)
 
 /* elevator cmd pos for transport */
+
+/* lora send and recv buf */
+struct LORA_DATA {
+  QString recv_buf;
+  QString send_buf;
+};
 
 /* lora_parse */
 void lora_rx_frame_parse(transport_t *transport, uint8_t *frame,
                          int32_t length);
 int32_t lora_tx_frame(intptr_t handle, uint8_t *data, int32_t length);
-
-// QString lora_signal(QString str);
 
 #endif // LORA_H

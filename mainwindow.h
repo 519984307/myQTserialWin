@@ -8,6 +8,7 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 
+#include "lora.h"
 #include "transport_crc.h"
 #include <QDateTime>
 #include <QDebug>
@@ -30,10 +31,13 @@ class MainWindow : public QMainWindow {
 public:
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
-  QString lora_signal(QString str);
+
   void draw_signal_quality_line();
   void draw_floor_changed_line();
-  void serial_config_enable(bool value);
+  void serial_config_disable(bool value);
+  /* lora */
+  QString lora_signal(QString str, QString signal, int &i);
+  void lora_init(void);
 
 protected:
   /* find free serial */
@@ -59,4 +63,5 @@ private:
   QSerialPort *serialPort;
   QString write2fileName;
 };
+
 #endif // MAINWINDOW_H

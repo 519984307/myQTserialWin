@@ -315,41 +315,6 @@
      <string>清除发送</string>
     </property>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>460</y>
-      <width>171</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QCheckBox" name="elevator_mode">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="text">
-        <string>乘梯模式</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="signal_quality">
-       <property name="text">
-        <string>信号质量检测</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QCheckBox" name="openCom">
     <property name="enabled">
      <bool>true</bool>
@@ -405,8 +370,14 @@
         </item>
         <item>
          <widget class="QRadioButton" name="rx_hex">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string>HEX</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -510,6 +481,35 @@
       </item>
      </layout>
     </widget>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>460</y>
+      <width>174</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <item>
+      <widget class="QRadioButton" name="elevator_mode">
+       <property name="text">
+        <string>乘梯模式</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="signal_quality">
+       <property name="text">
+        <string>信号质量检测</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>

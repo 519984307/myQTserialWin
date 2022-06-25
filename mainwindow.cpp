@@ -18,7 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
       initSerialPort();
       ui->send->setEnabled(true);
       /* 关闭串口配置 */
-      serial_config_enable(true);
+      serial_config_disable(true);
+      /* 默认开启乘梯模式 */
+      // ui->elevator_mode->setChecked(true);
       /* clear data */
       LoraSignalQualitySeries->clear();
       floorChangedSeries->clear();
@@ -29,7 +31,9 @@ MainWindow::MainWindow(QWidget *parent)
       /* check false status */
       ui->openCom->setChecked(false);
       /* 打开串口配置 */
-      serial_config_enable(false);
+      serial_config_disable(false);
+      /* 关闭乘梯模式 */
+      //      ui->elevator_mode->setChecked(false);
     }
   });
   /* 接收数据连接(手动连接) */
@@ -116,7 +120,7 @@ void MainWindow::sendMsg(const QString &msg) {
       " [send] " + "\r\n" + msg + "\r\n");
 }
 
-void MainWindow::serial_config_enable(bool value) {
+void MainWindow::serial_config_disable(bool value) {
   /* 串口配置使能，失能 */
   ui->portName->setDisabled(value);
   ui->baudRate->setDisabled(value);
@@ -126,6 +130,7 @@ void MainWindow::serial_config_enable(bool value) {
 }
 
 extern transport_t lora_transport;
+extern LORA_DATA lora_data;
 
 /* receive message from serial port */
 void MainWindow::recvMsg() {
@@ -152,15 +157,39 @@ void MainWindow::recvMsg() {
         }
         rec_buf += str;
       }
-
-      /* lora信号质量检测 */
-      if (ui->signal_quality->isChecked()) {
-        rec_buf = this->lora_signal(rec_buf);
-      }
-      /* 打开乘梯模式 */
-      else if (ui->elevator_mode->isChecked()) {
+      /* 乘梯模式数据解析*/
+      if (ui->elevator_mode->isChecked()) {
+        /* 使用transpostCRC协议解析原始数据 */
         for (int i = 0; i < msg.count(); i++) {
           lora_transport.receiveByte(&lora_transport, (uint8_t)msg.at(i));
+        }
+        rec_buf = lora_data.recv_buf;
+      }
+      /* lora信号质量检测开启 */
+      else if (ui->signal_quality->isChecked()) {
+        QString signal;
+        int signal_val;
+        static int i = 0;
+        /* use regular expression to match the signal check */
+        QRegularExpression re("1[0-9] 7C 20 00 03");
+        if (re.match(rec_buf).hasMatch()) {
+          /* 提取lora信号强度 */
+          static QString lora_siganl_quality;
+          auto siganl_quality_pos = rec_buf.lastIndexOf(" ");
+          lora_siganl_quality = rec_buf.mid(siganl_quality_pos + 1, 2);
+          signal_val = lora_siganl_quality.toUInt(NULL, 16) / 2;
+          this->LoraSignalQualitySeries->append(i++, -signal_val);
+          signal = "信号强度:-";
+          signal += QString::number(signal_val) + "dBm";
+          // qDebug() << lora_siganl_quality;
+          /* 使用transportCRC协议原始协议 */
+          for (int i = 0; i < msg.count(); i++) {
+            lora_transport.receiveByte(&lora_transport, (uint8_t)msg.at(i));
+          }
+          rec_buf = lora_data.recv_buf;
+          // qDebug() << rec_buf;
+          /* add elevator status */
+          rec_buf = this->lora_signal(rec_buf, signal, i);
         }
       }
       if (!rec_buf.isEmpty()) {

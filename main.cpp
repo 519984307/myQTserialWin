@@ -5,7 +5,7 @@
 
 transport_t lora_transport;
 
-void lora_init(void) {
+void MainWindow::lora_init(void) {
   lora_transport.onFrameDetected = lora_rx_frame_parse;
   lora_transport.send = lora_tx_frame;
   lora_transport.uplayer = &lora_transport;
@@ -18,6 +18,6 @@ int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
   MainWindow w;
   w.show();
-  lora_init();
+  w.lora_init();
   return a.exec();
 }
