@@ -113,8 +113,8 @@ bool MainWindow::initSerialPort() {
 /* send message to serial port */
 void MainWindow::sendMsg(const QString &msg) {
     this->serialPort->write(QByteArray::fromHex(msg.toLatin1()));
-    ui->logBrowser->insertPlainText(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") + " [send] " + "\r\n" +
-                                    msg + "\r\n");
+    ui->logBrowser->insertPlainText(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz") + " [send] " +
+                                    "\r\n" + msg + "\r\n");
 }
 
 void MainWindow::serial_config_disable(bool value) {
@@ -128,7 +128,7 @@ void MainWindow::serial_config_disable(bool value) {
 
 extern transport_t lora_transport;
 extern LORA_DATA lora_data;
-extern struct ELEVATOR ele;
+extern struct ELEVATOR ele_rx;
 extern QByteArray lora_recv;
 
 /* receive message from serial port */

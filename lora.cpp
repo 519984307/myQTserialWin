@@ -1,4 +1,5 @@
 #include "lora.h"
+#include "elevator_protocol_parse.h"
 #include "mainwindow.h"
 #include "transport_crc.h"
 #include "ui_mainwindow.h"
@@ -6,6 +7,7 @@
 extern transport_t lora_transport;
 
 struct LORA_DATA lora_data;
+struct ELEVATOR ele_tx;
 QByteArray lora_recv;
 
 void lora_rx_frame_parse(transport_t *transport, uint8_t *frame, int32_t length) {
@@ -35,3 +37,36 @@ QString MainWindow::lora_signal(QString str, QString signal, int &i) {
     // qDebug() << ret;
     return ret;
 }
+
+/* enable or disable send elevator config */
+void MainWindow::on_save_send_config_clicked(bool checked) {
+    if (checked) {
+        ui->val_process_id->setEnabled(false);
+        ui->val_message_id->setEnabled(false);
+        ui->val_ele_id->setEnabled(false);
+        ui->val_robot_id->setEnabled(false);
+    } else {
+        ui->val_process_id->setEnabled(true);
+        ui->val_message_id->setEnabled(true);
+        ui->val_ele_id->setEnabled(true);
+        ui->val_robot_id->setEnabled(true);
+    }
+}
+
+void MainWindow::on_preempt_elevator_button_clicked() {
+    ele_tx.processId = ui->val_process_id->text().toInt();
+
+    qDebug() << "process_id:" << ele_tx.processId;
+}
+
+void MainWindow::on_external_call_elevator_button_clicked() {}
+
+void MainWindow::on_query_elevator_status_button_clicked() {}
+
+void MainWindow::on_open_door_button_clicked() {}
+
+void MainWindow::on_close_door_button_clicked() {}
+
+void MainWindow::on_release_elevator_button_clicked() {}
+
+void MainWindow::on_cancel_elevator_task_button_clicked() {}

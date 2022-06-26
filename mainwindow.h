@@ -8,8 +8,6 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 
-#include "lora.h"
-#include "transport_crc.h"
 #include <QDateTime>
 #include <QDebug>
 #include <QFile>
@@ -18,6 +16,8 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <iostream>
+#include "lora.h"
+#include "transport_crc.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,42 +26,49 @@ class MainWindow;
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  explicit MainWindow(QWidget *parent = nullptr);
-  ~MainWindow();
+ public:
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
-  void draw_signal_quality_line();
-  void draw_floor_changed_line();
-  void serial_config_disable(bool value);
-  /* lora */
-  QString lora_signal(QString str, QString signal, int &i);
-  void lora_init(void);
+    void draw_signal_quality_line();
+    void draw_floor_changed_line();
+    void serial_config_disable(bool value);
+    /* lora */
+    QString lora_signal(QString str, QString signal, int &i);
+    void lora_init(void);
 
-protected:
-  /* find free serial */
-  void findFreeports();
-  /* init serial port */
-  bool initSerialPort();
-  /* send messsager */
-  void sendMsg(const QString &msg);
+ protected:
+    /* find free serial */
+    void findFreeports();
+    /* init serial port */
+    bool initSerialPort();
+    /* send messsager */
+    void sendMsg(const QString &msg);
 
-public slots:
-  void recvMsg();
-  void on_clearRxLog_clicked();
-  void on_clearTxLog_clicked();
-  void on_saveFile_clicked(bool checked);
-  void on_signal_quality_button_clicked(bool checked);
+ public slots:
+    void recvMsg();
+    void on_clearRxLog_clicked();
+    void on_clearTxLog_clicked();
+    void on_saveFile_clicked(bool checked);
+    void on_signal_quality_button_clicked(bool checked);
+    /* lora send button slot function */
+    void on_save_send_config_clicked(bool checked);
+    void on_preempt_elevator_button_clicked();
+    void on_external_call_elevator_button_clicked();
+    void on_query_elevator_status_button_clicked();
+    void on_open_door_button_clicked();
+    void on_close_door_button_clicked();
+    void on_release_elevator_button_clicked();
+    void on_cancel_elevator_task_button_clicked();
 
-private:
-  Ui::MainWindow *ui;
-  QtCharts::QLineSeries
-      *LoraSignalQualitySeries; /* lora signal quality series */
-  QtCharts::QLineSeries
-      *floorChangedSeries; /* floor changed chart for signal quality */
-  QSerialPort *serialPort;
-  QString write2fileName;
+ private:
+    Ui::MainWindow *ui;
+    QtCharts::QLineSeries *LoraSignalQualitySeries; /* lora signal quality series */
+    QtCharts::QLineSeries *floorChangedSeries;      /* floor changed chart for signal quality */
+    QSerialPort *serialPort;
+    QString write2fileName;
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

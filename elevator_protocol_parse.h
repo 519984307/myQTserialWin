@@ -129,29 +129,29 @@ int strDateToBuf(QString &rawData, QByteArray *frame);
 QString elevator_lora_data_parse(QByteArray &rawData);
 
 /* LORA data parse function */
-QString loraRawDataParse(ELEVATOR &ele, QByteArray &rawData, QString &result);
+QString loraRawDataParse(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);
 /* LORA cmd data parse function */
-QString loraCmdParse(ELEVATOR &ele, QByteArray &rawData, QString &result);
+QString loraCmdParse(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);
 
 /* elevator protocol:7C/7E/7D */
-QString queryCmd(ELEVATOR &ele, QByteArray &rawData, QString &result);   /* query:7C 124 */
-QString configCmd(ELEVATOR &ele, QByteArray &rawData, QString &result);  /* query:7D 125 */
-QString controlCmd(ELEVATOR &ele, QByteArray &rawData, QString &result); /* control:7E 126 */
+QString queryCmd(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);   /* query:7C 124 */
+QString configCmd(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);  /* query:7D 125 */
+QString controlCmd(ELEVATOR &ele_rx, QByteArray &rawData, QString &result); /* control:7E 126 */
 
 /* query elevator cmd*/
-QString queryElevatorStatus(ELEVATOR &ele, QByteArray &rawData, QString &result); /* query elevator status */
-QString slaveHeartPacket(ELEVATOR &ele, QByteArray &rawData, QString &result);    /* slave heart packet */
+QString queryElevatorStatus(ELEVATOR &ele_rx, QByteArray &rawData, QString &result); /* query elevator status */
+QString slaveHeartPacket(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);    /* slave heart packet */
 
 /* query elevator cmd*/
-QString initElevatorConfig(ELEVATOR &ele, QByteArray &rawData, QString &result);
-QString confirmElevatorConfig(ELEVATOR &ele, QByteArray &rawData, QString &result);
+QString initElevatorConfig(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);
+QString confirmElevatorConfig(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);
 
 /*elevator control cmd*/
-QString preemptElevator(ELEVATOR &ele, QByteArray &rawData, QString &result); /* preempt the elevator */
-QString externalCall(ELEVATOR &ele, QByteArray &rawData, QString &result);    /* external call elevator */
-QString controlDoor(ELEVATOR &ele, QByteArray &rawData, QString &result);     /* control door */
-QString internalCall(ELEVATOR &ele, QByteArray &rawData, QString &result);    /* internal call elevator */
-QString releaseElevator(ELEVATOR &ele, QByteArray &rawData, QString &result); /* release the elevator */
-QString cancelTheTask(ELEVATOR &ele, QByteArray &rawData, QString &result);   /* cancel the elevator task */
+QString preemptElevator(ELEVATOR &ele_rx, QByteArray &rawData, QString &result); /* preempt the elevator */
+QString externalCall(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);    /* external call elevator */
+QString controlDoor(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);     /* control door */
+QString internalCall(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);    /* internal call elevator */
+QString releaseElevator(ELEVATOR &ele_rx, QByteArray &rawData, QString &result); /* release the elevator */
+QString cancelTheTask(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);   /* cancel the elevator task */
 
 #endif /* ELEVATOR_PROTOCOL_PARSE_H */

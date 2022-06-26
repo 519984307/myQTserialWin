@@ -4,25 +4,6 @@
 #include "transport_crc.h"
 #include <mainwindow.h>
 
-/* lora parse macro*/
-/* QUERY 7C*/
-#define QUERY (124)
-#define ELEVATOR_STATUS (32)
-#define HEART_PACKET (43)
-#define SLAVE_OTA (37)
-#define SLAVE_OTA_DONE (38)
-/* CONFIG 7D */
-#define ELEVATOR_CONFIG (125)
-/* COMMAND 7E */
-/* TODO */
-#define ELEVATOR_CMD (126)
-#define EXTERNAL_CALL (32)
-#define CONTROL_DOOR (34)
-#define CANCEL_TASK (35)
-#define INTERNAL_CALL (40)
-#define PREEMPT_ELEVATOR (41)
-#define RELEASE_ELEVATOR (48)
-
 /* elevator cmd pos not for transport */
 #define ELEVATOR_VERSION_POS (2)
 #define ELEVATOR_PROCESS_ID_POS (3)
