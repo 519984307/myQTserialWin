@@ -129,7 +129,7 @@ void MainWindow::serial_config_disable(bool value) {
 extern transport_t lora_transport;
 extern LORA_DATA lora_data;
 extern struct ELEVATOR ele_rx;
-extern QByteArray lora_recv;
+extern QByteArray lora_rx;
 
 /* receive message from serial port */
 void MainWindow::recvMsg() {
@@ -162,10 +162,10 @@ void MainWindow::recvMsg() {
                 for (int i = 0; i < msg.count(); i++) {
                     lora_transport.receiveByte(&lora_transport, (uint8_t)msg.at(i));
                 }
-                // msg = lora_recv;
-                qDebug() << lora_recv.size();
+                // msg = lora_rx;
+                // qDebug() << lora_rx.size();
                 // rec_buf = lora_data.recv_buf;
-                rec_buf = elevator_lora_data_parse(lora_recv);
+                rec_buf = elevator_lora_data_parse(lora_rx);
             }
             /* lora信号质量检测开启 */
             else if (ui->signal_quality->isChecked()) {

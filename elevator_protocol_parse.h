@@ -28,15 +28,15 @@
 #define CONFIG_OK (38)         /* 确认电梯配置 */
 #define UPDATE (39)            /* 从机OTA升级 */
 #define IP_CONFIG (40)         /* IP配置(未使用) */
-#define ELE_RESET (41)         /* 电梯复位 */
 #define FLOOR_TAG_QUALITY (44) /* 标签质量检测 */
 #define FLOOR_TAG_CLEAR (45)   /* 清除楼层标签 */
 
-/* TODO */
+/* CONTROL */
 #define ELEVATOR_CMD (126)
 #define EXTERNAL_CALL (32)
 #define CONTROL_DOOR (34)
 #define CANCEL_TASK (35)
+#define ELEVATOR_REBOOT (37)         /* 电梯复位 */
 #define INTERNAL_CALL (40)
 #define PREEMPT_ELEVATOR (41)
 #define RELEASE_ELEVATOR (48)
@@ -150,6 +150,7 @@ QString confirmElevatorConfig(ELEVATOR &ele_rx, QByteArray &rawData, QString &re
 QString preemptElevator(ELEVATOR &ele_rx, QByteArray &rawData, QString &result); /* preempt the elevator */
 QString externalCall(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);    /* external call elevator */
 QString controlDoor(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);     /* control door */
+QString rebootTheElevator(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);     /* cancel task */
 QString internalCall(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);    /* internal call elevator */
 QString releaseElevator(ELEVATOR &ele_rx, QByteArray &rawData, QString &result); /* release the elevator */
 QString cancelTheTask(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);   /* cancel the elevator task */

@@ -21,25 +21,25 @@ QString elevatorCmdParse(ELEVATOR &ele_rx, QByteArray &rawData, QString &result)
 }
 
 QString elevator_lora_data_parse(QByteArray &rawData) {
-    QString res                = "test";
+    QString res                   = "";
     ele_rx.elvatorProtocolVersion = rawData.at(0);
     ele_rx.processId = (uint8_t)rawData.at(4) << 24 | (uint8_t)rawData.at(3) << 16 | (uint8_t)rawData.at(2) << 8 |
-                    (uint8_t)rawData.at(1);
+                       (uint8_t)rawData.at(1);
     ele_rx.messageId = (uint8_t)rawData.at(8) << 24 | (uint8_t)rawData.at(7) << 16 | (uint8_t)rawData.at(6) << 8 |
-                    (uint8_t)rawData.at(5);
+                       (uint8_t)rawData.at(5);
     ele_rx.eleId          = (uint8_t)rawData.at(10) << 8 | (uint8_t)rawData.at(9);
     ele_rx.lora.direction = (uint8_t)rawData.at(11) >> 4;
     ele_rx.robotId        = (uint8_t)rawData.at(11) & 0x0F;
     ele_rx.lora.cmd       = (uint8_t)rawData.at(12);
     ele_rx.lora.toDo      = (uint8_t)rawData.at(13);
-    res                = elevatorCmdParse(ele_rx, rawData, res);
-    qDebug() << ele_rx.processId;
-    qDebug() << ele_rx.messageId;
-    qDebug() << ele_rx.eleId;
-    qDebug() << ele_rx.lora.direction;
-    qDebug() << ele_rx.robotId;
-    qDebug() << ele_rx.lora.cmd;
-    qDebug() << ele_rx.lora.toDo;
+    res                   = elevatorCmdParse(ele_rx, rawData, res);
+    //    qDebug() << ele_rx.processId;
+    //    qDebug() << ele_rx.messageId;
+    //    qDebug() << ele_rx.eleId;
+    //    qDebug() << ele_rx.lora.direction;
+    //    qDebug() << ele_rx.robotId;
+    //    qDebug() << ele_rx.lora.cmd;
+    //    qDebug() << ele_rx.lora.toDo;
     return res;
 }
 
@@ -73,6 +73,9 @@ QString controlCmd(ELEVATOR &ele_rx, QByteArray &rawData, QString &result) {
         case CANCEL_TASK:
             result = cancelTheTask(ele_rx, rawData, result);
             break;
+            /* reboot the elevator */
+        case ELEVATOR_REBOOT:
+            result = rebootTheElevator(ele_rx, rawData, result);
             /* internal call the elevator */
         case INTERNAL_CALL:
             result = internalCall(ele_rx, rawData, result);
@@ -195,7 +198,7 @@ QString controlDoor(ELEVATOR &ele_rx, QByteArray &rawData, QString &result) {
     int res_val    = 0;
     QString method = "";
     res_val        = (uint8_t)rawData.at(17);
-    method         = (res_val == CMD_SUCCESS) ? "开门." : "关门.";
+    method         = (res_val == CMD_SUCCESS) ? "开门" : "关门";
     if (ele_rx.lora.direction == Slave) {
         result  = "接收(从机):" + method;
         res_val = (uint8_t)rawData.at(18);
@@ -265,6 +268,20 @@ QString cancelTheTask(ELEVATOR &ele_rx, QByteArray &rawData, QString &result) {
             result = "接收(机器):" + QString::number((ele_rx.robotId)) + "号机器人取消任务.";
         else {
             result = "接收(主机):" + QString::number((ele_rx.robotId)) + "号机器人取消任务.";
+        }
+    }
+    return result;
+}
+
+/* reboot the elevator */
+QString rebootTheElevator(ELEVATOR &ele_rx, QByteArray &rawData, QString &result) {
+    if (ele_rx.lora.direction == Slave) {
+        result = "接收(从机):请求主机重启";
+    } else {
+        if (ele_rx.lora.direction == Robot)
+            result = "接收(机器):请求从机重启";
+        else {
+            result = "接收(主机):请求主从机重启.";
         }
     }
     return result;

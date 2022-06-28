@@ -1,8 +1,10 @@
 #ifndef LORA_H
 #define LORA_H
 
-#include "transport_crc.h"
 #include <mainwindow.h>
+#include "transport_crc.h"
+
+#define ELEVATOR_PROTOCOL_VERSION (3)
 
 /* elevator cmd pos not for transport */
 #define ELEVATOR_VERSION_POS (2)
@@ -20,13 +22,13 @@
 
 /* lora send and recv buf */
 struct LORA_DATA {
-  QString recv_buf;
-  QString send_buf;
+    QString recv_buf;
+    QString send_buf;
 };
 
 /* lora_parse */
-void lora_rx_frame_parse(transport_t *transport, uint8_t *frame,
-                         int32_t length);
+void lora_rx_frame_parse(transport_t *transport, uint8_t *frame, int32_t length);
+void lora_send(uint8_t *data, uint16_t len);
 int32_t lora_tx_frame(intptr_t handle, uint8_t *data, int32_t length);
 
-#endif // LORA_H
+#endif  // LORA_H

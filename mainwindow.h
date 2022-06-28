@@ -35,9 +35,12 @@ class MainWindow : public QMainWindow {
     void draw_signal_quality_line();
     void draw_floor_changed_line();
     void serial_config_disable(bool value);
+    void elevator_send_config_enabled(bool value);
     /* lora */
     QString lora_signal(QString str, QString signal, int &i);
+    void lora_send_user_data(QString str);
     void lora_init(void);
+    void send_cmd_enabled(bool value);
 
  protected:
     /* find free serial */
@@ -56,12 +59,13 @@ class MainWindow : public QMainWindow {
     /* lora send button slot function */
     void on_save_send_config_clicked(bool checked);
     void on_preempt_elevator_button_clicked();
-    void on_external_call_elevator_button_clicked();
+    void on_call_elevator_button_clicked();
     void on_query_elevator_status_button_clicked();
     void on_open_door_button_clicked();
     void on_close_door_button_clicked();
     void on_release_elevator_button_clicked();
     void on_cancel_elevator_task_button_clicked();
+    void on_reset_elevator_button_clicked();
 
  private:
     Ui::MainWindow *ui;
