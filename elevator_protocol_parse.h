@@ -141,6 +141,8 @@ QString controlCmd(ELEVATOR &ele_rx, QByteArray &rawData, QString &result); /* c
 /* query elevator cmd*/
 QString queryElevatorStatus(ELEVATOR &ele_rx, QByteArray &rawData, QString &result); /* query elevator status */
 QString slaveHeartPacket(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);    /* slave heart packet */
+QString stressStart(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);         /* stress test start */
+QString stressTest(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);         /* stress test */
 
 /* query elevator cmd*/
 QString initElevatorConfig(ELEVATOR &ele_rx, QByteArray &rawData, QString &result);

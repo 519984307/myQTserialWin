@@ -40,6 +40,10 @@ QString elevator_lora_data_parse(QByteArray &rawData) {
     //    qDebug() << ele_rx.robotId;
     //    qDebug() << ele_rx.lora.cmd;
     //    qDebug() << ele_rx.lora.toDo;
+    /* 添加电梯ID字段 */
+    if (!res.isEmpty()) {
+        res += QString::asprintf("(%d)", ele_rx.eleId);
+    }
     return res;
 }
 
@@ -245,10 +249,17 @@ QString queryCmd(ELEVATOR &ele_rx, QByteArray &rawData, QString &result) {
         case QUERY_ELEVATOR_STATUS:
             result = queryElevatorStatus(ele_rx, rawData, result);
             break;
+        /* stress test */
+        case STRESS_TEST:
+            result = stressTest(ele_rx, rawData, result);
+            break;
         /* slave heart packet */
         case HEART_PACKET:
             result = slaveHeartPacket(ele_rx, rawData, result);
             break;
+            /* stress test start */
+        case STRESS_TEST_START:
+            result = stressStart(ele_rx, rawData, result);
         default:
             break;
     }
@@ -303,10 +314,43 @@ QString queryElevatorStatus(ELEVATOR &ele_rx, QByteArray &rawData, QString &resu
     return result;
 }
 
+/* slave stress test */
+QString stressTest(ELEVATOR &ele_rx, QByteArray &rawData, QString &result) {
+    if (ele_rx.lora.direction == Slave) {
+        result = "接收(从机):lora压测中>流程ID:" + QString::number(ele_rx.processId) +
+                 " 消息ID:" + QString::number(ele_rx.messageId) + " 楼层:" + QString::number((uint8_t)rawData.at(17)) +
+                 " 运动状态:" + QString::number((uint8_t)rawData.at(18)) + ".";
+    } else if (ele_rx.lora.direction == Master) {
+        result = "接收(主机):lora压测中>流程ID:" + QString::number(ele_rx.processId) +
+                 " 消息ID:" + QString::number(ele_rx.messageId) + ".";
+    } else {
+        result = "接收(机器):压测.";
+    }
+    return result;
+}
+
 /* slave heart packet 7C 2B */
 QString slaveHeartPacket(ELEVATOR &ele_rx, QByteArray &rawData, QString &result) {
     if (ele_rx.lora.direction == Slave) {
         result = "接收(从机):收到从机心跳包.";
+    }
+    return result;
+}
+
+/* stress test start 7C 2F */
+QString stressStart(ELEVATOR &ele_rx, QByteArray &rawData, QString &result) {
+    int res_val = 0;
+    QString ans = "";
+    if (ele_rx.lora.direction == Slave) {
+        res_val = (uint8_t)rawData.at(17);
+        ans     = (res_val == CMD_SUCCESS) ? "失败,从机非空闲." : "成功.";
+        result  = "接收(从机):压测启动" + ans;
+    } else {
+        if (ele_rx.lora.direction == Robot)
+            result = "接收(机器):压测启动确认.";
+        else {
+            result = "接收(主机):压测启动确认.";
+        }
     }
     return result;
 }

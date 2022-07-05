@@ -80,6 +80,9 @@ void MainWindow::on_save_send_config_clicked(bool checked) {
 
 /* send custom data by lora */
 void MainWindow::lora_send_user_data(QString str) {
+    if (!str.isEmpty()) {
+        str += QString::asprintf("(%d)", ele_tx.eleId);
+    }
     ui->logBrowser->insertPlainText(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz") + " [send] " +
                                     "\r\n" + str + "\r\n");
     /* 自动滚动进度条 */
@@ -213,7 +216,7 @@ void MainWindow::on_cancel_elevator_task_button_clicked() {
     lora_send_user_data(lora_data.send_buf);
 }
 
-void MainWindow::on_reset_elevator_button_clicked(){
+void MainWindow::on_reset_elevator_button_clicked() {
     elevator_config_send_buf();
     elevator_send_buf[12] = ELEVATOR_CMD;
     elevator_send_buf[13] = ELEVATOR_REBOOT;
