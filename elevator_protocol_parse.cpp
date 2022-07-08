@@ -201,17 +201,21 @@ QString internalCall(ELEVATOR &ele_rx, QByteArray &rawData, QString &result) {
 QString controlDoor(ELEVATOR &ele_rx, QByteArray &rawData, QString &result) {
     int res_val    = 0;
     QString method = "";
-    res_val        = (uint8_t)rawData.at(17);
-    method         = (res_val == CMD_SUCCESS) ? "开门" : "关门";
     if (ele_rx.lora.direction == Slave) {
+        res_val = (uint8_t)rawData.at(17);
+        method  = (res_val == CMD_SUCCESS) ? "开门" : "关门";
         result  = "接收(从机):" + method;
         res_val = (uint8_t)rawData.at(18);
         method  = (res_val == CMD_SUCCESS) ? "成功." : "失败.";
         result += method;
-    } else if (ele_rx.lora.direction == Master) {
-        result = "接收(主机)请求电梯:" + method + QString::number((uint8_t)rawData.at(18)) + "秒.";
     } else {
-        result = "接收(机器)请求电梯:" + method + QString::number((uint8_t)rawData.at(18)) + "秒.";
+        res_val = (uint8_t)rawData.at(18);
+        method  = (res_val == CMD_SUCCESS) ? "开门" : "关门";
+        if (ele_rx.lora.direction == Master) {
+            result = "接收(主机):请求电梯:" + method + QString::number((uint8_t)rawData.at(19)) + "秒.";
+        } else {
+            result = "接收(机器):请求电梯:" + method + QString::number((uint8_t)rawData.at(19)) + "秒.";
+        }
     }
     return result;
 }
