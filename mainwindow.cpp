@@ -11,10 +11,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->LoraSignalQualitySeries = new QtCharts::QLineSeries();
     this->floorChangedSeries      = new QtCharts::QLineSeries();
     findFreeports();
-     /* 初始化定时器 */
+    /* 初始化定时器 */
     query_ele_timer = new QTimer();
     query_ele_timer->setTimerType(Qt::CoarseTimer);
     connect(query_ele_timer, &QTimer::timeout, this, [=]() { query_elevator_status(); });
+    /* 关闭lora发送和配置窗口 */
+    ui->send_cmd->setEnabled(false);
+    ui->lora_config_group->setEnabled(false);
     /* detect the toggled signal(这是一种自检测，不连接其他槽) */
     connect(ui->openCom, &QCheckBox::toggled, [=](bool checked) {
         /* the check is TRUE */
@@ -40,7 +43,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             // ui->elevator_mode->setChecked(false);
             /* 关闭循环发送 */
             query_ele_timer->stop();
-            ui->circle_query_box->setChecked(false);           
+            ui->circle_query_box->setChecked(false);
+            /* 关闭lora配置 */
+            ui->lora_config_group->setEnabled(false);
         }
     });
     /* 接收数据连接(手动连接) */
@@ -96,6 +101,12 @@ bool MainWindow::initSerialPort() {
     /* set lora serial M0、M1 pin LOW */
     this->serialPort->setRequestToSend(TRUE);
     this->serialPort->setDataTerminalReady(TRUE);
+
+    /* if enter lora config mode set M1 pin HIGH */
+    if (ui->baudRate->currentText().toInt() == 9600) {
+        this->serialPort->setRequestToSend(FALSE);
+        ui->lora_config_group->setEnabled(true);
+    }
 
     /* set data size */
     if (ui->dataBits->currentText().toInt() == DATA_BITS_8) {

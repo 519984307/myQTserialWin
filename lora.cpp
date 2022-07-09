@@ -89,7 +89,7 @@ void MainWindow::on_circle_query_box_clicked(bool checked) {
 
 /* send custom data by lora */
 void MainWindow::lora_send_user_data(QString str) {
-    if (!str.isEmpty()) {
+    if (!str.isEmpty() && !ui->lora_config_group->isEnabled()) {
         str += QString::asprintf("(%d)", ele_tx.eleId);
     }
     ui->logBrowser->insertPlainText(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz") + " [send] " +
@@ -237,6 +237,31 @@ void MainWindow::on_reset_elevator_button_clicked() {
     lora_send(elevator_send_buf, 17);
     lora_data.send_buf = "发送(机器):请求电梯复位.";
     /* send lora_tx buf */
+    this->serialPort->write(lora_tx);
+    lora_send_user_data(lora_data.send_buf);
+}
+
+/* LORA CONFIG */
+void MainWindow::on_lora_config_button_clicked() {
+    memset(&elevator_send_buf, 0, sizeof(elevator_send_buf));
+    elevator_send_buf[0]  = 0xC0;
+    elevator_send_buf[1]  = 0x00;
+    elevator_send_buf[2]  = 0x09;
+    elevator_send_buf[3]  = 0xFF;
+    elevator_send_buf[4]  = 0xFF;
+    elevator_send_buf[5]  = 0x05;
+    elevator_send_buf[6]  = 0xE5;
+    elevator_send_buf[7]  = 0xC0;
+    elevator_send_buf[8]  = ui->lora_channal_val->currentText().toInt();
+    elevator_send_buf[9]  = ui->lora_signal_val->currentText() == "YES" ? 0x83 : 0x03;
+    elevator_send_buf[10] = 0x0E;
+    elevator_send_buf[11] = 0x19;
+    lora_tx.clear();
+    for (int i = 0; i < 12; i++) {
+        lora_tx.push_back(elevator_send_buf[i]);
+    }
+    QString res        = ui->lora_signal_val->currentText() == "YES" ? "使能" : "失能";
+    lora_data.send_buf = "配置信道:" + QString::number(elevator_send_buf[8]) + "," + res + "信号强度.";
     this->serialPort->write(lora_tx);
     lora_send_user_data(lora_data.send_buf);
 }

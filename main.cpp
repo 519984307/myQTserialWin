@@ -17,7 +17,6 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
     MainWindow w;
-    w.send_cmd_enabled(false);
     w.show();
     w.lora_init();
     return a.exec();

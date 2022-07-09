@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1052</width>
-    <height>673</height>
+    <width>1022</width>
+    <height>691</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_6">
-    <item row="6" column="0" colspan="3">
+    <item row="5" column="0" colspan="3">
      <widget class="QGroupBox" name="dataSend">
       <property name="maximumSize">
        <size>
@@ -83,7 +83,82 @@
       </layout>
      </widget>
     </item>
-    <item row="5" column="1">
+    <item row="0" column="1" rowspan="4" colspan="2">
+     <widget class="QGroupBox" name="dataLog">
+      <property name="minimumSize">
+       <size>
+        <width>641</width>
+        <height>451</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>数据日志</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QTextBrowser" name="logBrowser"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_12">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
+      <property name="leftMargin">
+       <number>225</number>
+      </property>
+      <property name="rightMargin">
+       <number>4</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="clearTxLog">
+        <property name="minimumSize">
+         <size>
+          <width>78</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>78</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>清除发送</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="clearRxLog">
+        <property name="minimumSize">
+         <size>
+          <width>78</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>78</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>清除接收</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="4" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_19">
       <property name="spacing">
        <number>0</number>
@@ -95,13 +170,13 @@
        <widget class="QGroupBox" name="groupBox_4">
         <property name="minimumSize">
          <size>
-          <width>246</width>
+          <width>161</width>
           <height>26</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>250</width>
+          <width>170</width>
           <height>26</height>
          </size>
         </property>
@@ -119,7 +194,7 @@
           <number>2</number>
          </property>
          <property name="rightMargin">
-          <number>33</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
           <number>9</number>
@@ -128,7 +203,7 @@
           <widget class="QRadioButton" name="elevator_mode">
            <property name="minimumSize">
             <size>
-             <width>104</width>
+             <width>61</width>
              <height>19</height>
             </size>
            </property>
@@ -150,7 +225,7 @@
           <widget class="QRadioButton" name="signal_quality">
            <property name="minimumSize">
             <size>
-             <width>141</width>
+             <width>96</width>
              <height>19</height>
             </size>
            </property>
@@ -171,80 +246,18 @@
         </layout>
        </widget>
       </item>
-     </layout>
-    </item>
-    <item row="0" column="1" rowspan="5" colspan="2">
-     <widget class="QGroupBox" name="dataLog">
-      <property name="minimumSize">
-       <size>
-        <width>641</width>
-        <height>451</height>
-       </size>
-      </property>
-      <property name="title">
-       <string>数据日志</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QTextBrowser" name="logBrowser"/>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="5" column="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_12">
-      <property name="spacing">
-       <number>6</number>
-      </property>
-      <property name="sizeConstraint">
-       <enum>QLayout::SetNoConstraint</enum>
-      </property>
-      <property name="leftMargin">
-       <number>225</number>
-      </property>
-      <property name="rightMargin">
-       <number>4</number>
-      </property>
       <item>
-       <widget class="QPushButton" name="clearRxLog">
-        <property name="minimumSize">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
          <size>
-          <width>78</width>
-          <height>25</height>
+          <width>40</width>
+          <height>20</height>
          </size>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>78</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>清除接收</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="clearTxLog">
-        <property name="minimumSize">
-         <size>
-          <width>78</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>78</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>清除发送</string>
-        </property>
-       </widget>
+       </spacer>
       </item>
      </layout>
     </item>
@@ -254,7 +267,7 @@
        <widget class="QGroupBox" name="serialConfig">
         <property name="minimumSize">
          <size>
-          <width>180</width>
+          <width>163</width>
           <height>1</height>
          </size>
         </property>
@@ -271,7 +284,7 @@
          <item row="1" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_13">
            <property name="leftMargin">
-            <number>10</number>
+            <number>31</number>
            </property>
            <property name="rightMargin">
             <number>0</number>
@@ -366,11 +379,6 @@
                <item>
                 <property name="text">
                  <string>9600</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string/>
                 </property>
                </item>
               </widget>
@@ -645,8 +653,8 @@
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
     <size>
-     <width>190</width>
-     <height>673</height>
+     <width>191</width>
+     <height>691</height>
     </size>
    </property>
    <property name="maximumSize">
@@ -670,14 +678,14 @@
       <widget class="QGroupBox" name="send_config">
        <property name="minimumSize">
         <size>
-         <width>167</width>
-         <height>0</height>
+         <width>173</width>
+         <height>224</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>190</width>
-         <height>16777215</height>
+         <width>173</width>
+         <height>256</height>
         </size>
        </property>
        <property name="title">
@@ -700,7 +708,7 @@
               <property name="minimumSize">
                <size>
                 <width>93</width>
-                <height>26</height>
+                <height>22</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -736,7 +744,7 @@
               <property name="minimumSize">
                <size>
                 <width>93</width>
-                <height>26</height>
+                <height>22</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -775,7 +783,7 @@
               <property name="minimumSize">
                <size>
                 <width>93</width>
-                <height>26</height>
+                <height>22</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -814,7 +822,7 @@
               <property name="minimumSize">
                <size>
                 <width>93</width>
-                <height>26</height>
+                <height>22</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -847,7 +855,7 @@
               <property name="minimumSize">
                <size>
                 <width>93</width>
-                <height>26</height>
+                <height>22</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -880,7 +888,7 @@
               <property name="minimumSize">
                <size>
                 <width>93</width>
-                <height>26</height>
+                <height>22</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -910,7 +918,7 @@
            <enum>QLayout::SetDefaultConstraint</enum>
           </property>
           <property name="leftMargin">
-           <number>34</number>
+           <number>42</number>
           </property>
           <item>
            <widget class="QCheckBox" name="save_send_config">
@@ -943,14 +951,14 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>153</width>
-         <height>352</height>
+         <width>173</width>
+         <height>231</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>185</width>
-         <height>16777215</height>
+         <width>173</width>
+         <height>262</height>
         </size>
        </property>
        <property name="title">
@@ -961,9 +969,6 @@
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QPushButton" name="preempt_elevator_button">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
             <property name="text">
              <string>抢占电梯</string>
             </property>
@@ -1068,23 +1073,192 @@
             </property>
            </widget>
           </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="lora_config_group">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>173</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>173</width>
+         <height>135</height>
+        </size>
+       </property>
+       <property name="title">
+        <string>LoRa配置</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_10">
           <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+           <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="0,0">
+            <property name="spacing">
+             <number>25</number>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
+            <property name="sizeConstraint">
+             <enum>QLayout::SetMinimumSize</enum>
             </property>
-           </spacer>
+            <item>
+             <widget class="QLabel" name="lora_channal">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>信道</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="lora_channal_val">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>93</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="editable">
+               <bool>false</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>21</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>20</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>19</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>18</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>17</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>16</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>15</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>14</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_25" stretch="0,0">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="lora_signal_enable">
+              <property name="maximumSize">
+               <size>
+                <width>51</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>信号强度</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="lora_signal_val">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>93</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="editable">
+               <bool>false</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>NO</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>YES</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="lora_config_button">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>确认配置</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
        </layout>
       </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </widget>

@@ -15,6 +15,7 @@
 #include <QList>
 #include <QMessageBox>
 #include <QTextStream>
+#include <QThread>
 #include <QTimer>
 #include <iostream>
 #include "lora.h"
@@ -70,6 +71,8 @@ class MainWindow : public QMainWindow {
     void on_release_elevator_button_clicked();
     void on_cancel_elevator_task_button_clicked();
     void on_reset_elevator_button_clicked();
+    /* lora config */
+    void on_lora_config_button_clicked();
 
  private:
     Ui::MainWindow *ui;
