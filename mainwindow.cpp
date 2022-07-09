@@ -11,6 +11,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->LoraSignalQualitySeries = new QtCharts::QLineSeries();
     this->floorChangedSeries      = new QtCharts::QLineSeries();
     findFreeports();
+     /* 初始化定时器 */
+    query_ele_timer = new QTimer();
+    query_ele_timer->setTimerType(Qt::CoarseTimer);
+    connect(query_ele_timer, &QTimer::timeout, this, [=]() { query_elevator_status(); });
     /* detect the toggled signal(这是一种自检测，不连接其他槽) */
     connect(ui->openCom, &QCheckBox::toggled, [=](bool checked) {
         /* the check is TRUE */
@@ -34,6 +38,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             serial_config_disable(false);
             /* 关闭乘梯模式 */
             // ui->elevator_mode->setChecked(false);
+            /* 关闭循环发送 */
+            query_ele_timer->stop();
+            ui->circle_query_box->setChecked(false);           
         }
     });
     /* 接收数据连接(手动连接) */

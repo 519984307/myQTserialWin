@@ -1004,7 +1004,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_2">
+             <widget class="QCheckBox" name="circle_query_box">
               <property name="maximumSize">
                <size>
                 <width>57</width>

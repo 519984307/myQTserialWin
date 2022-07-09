@@ -78,6 +78,15 @@ void MainWindow::on_save_send_config_clicked(bool checked) {
     }
 }
 
+/* enable or disable circle query elevator feature */
+void MainWindow::on_circle_query_box_clicked(bool checked) {
+    if (checked) {
+        query_ele_timer->start(1000);
+    } else {
+        query_ele_timer->stop();
+    }
+}
+
 /* send custom data by lora */
 void MainWindow::lora_send_user_data(QString str) {
     if (!str.isEmpty()) {
@@ -140,7 +149,9 @@ void MainWindow::on_call_elevator_button_clicked() {
     lora_send_user_data(lora_data.send_buf);
 }
 
-void MainWindow::on_query_elevator_status_button_clicked() {
+void MainWindow::on_query_elevator_status_button_clicked() { query_elevator_status(); }
+
+void MainWindow::query_elevator_status() {
     elevator_config_send_buf();
     elevator_send_buf[12] = QUERY;
     elevator_send_buf[13] = QUERY_ELEVATOR_STATUS;

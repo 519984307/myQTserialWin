@@ -15,6 +15,7 @@
 #include <QList>
 #include <QMessageBox>
 #include <QTextStream>
+#include <QTimer>
 #include <iostream>
 #include "lora.h"
 #include "transport_crc.h"
@@ -41,6 +42,8 @@ class MainWindow : public QMainWindow {
     void lora_send_user_data(QString str);
     void lora_init(void);
     void send_cmd_enabled(bool value);
+    void query_elevator_status();
+    QTimer *query_ele_timer;
 
  protected:
     /* find free serial */
@@ -58,6 +61,7 @@ class MainWindow : public QMainWindow {
     void on_signal_quality_button_clicked(bool checked);
     /* lora send button slot function */
     void on_save_send_config_clicked(bool checked);
+    void on_circle_query_box_clicked(bool checked);
     void on_preempt_elevator_button_clicked();
     void on_call_elevator_button_clicked();
     void on_query_elevator_status_button_clicked();
